@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html style="height:100%; width:100%">
+  <head>
+    <meta charset="utf-8">
+    <title>Mford weather app</title>
+    <!-- trying to stop mobile phones from scaling the app -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <!-- bootstrap 3.0.2 css -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    
+    <!-- google maps -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+    <!-- google api loader needed for visualisation api -->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+    <!-- various imports -->
+    <link rel="import" href="weather_app.html">
+
+    <script type="application/dart">export 'package:polymer/init.dart';</script>    
+    <script src="packages/browser/dart.js"></script>
+    <script src="packages/browser/interop.js"></script>
+  </head>
+  <body style="font-size=10px">
+    <weather-app id="mainApp"></weather-app>
+  </body>
+</html>

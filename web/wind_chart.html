@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+  <link rel="import" href="packages/mford_util/ui/line_chart.html">
+  <link rel="import" href="packages/mford_util/ui/modal_loading.html">
+  <body>
+    <polymer-element name="wind-chart"> <template>
+    <style>
+    </style>
+    <div id="chartDiv"
+      style="overflow-y: scroll; -webkit-overflow-scrolling: scroll">
+  
+      <div class="container">
+        <h4>
+          <div id="siteName"></div>
+        </h4>
+      </div>
+  
+  
+      <line-chart id="speedChart" chartTitle="Wind speed"
+        xaxisTitle="Time" yaxisTitle="Speed (knots)"></line-chart>
+      <line-chart id="directionChart" chartTitle="Wind direction"
+        xaxisTitle="Time" yaxisTitle="Direction (degrees)" minValue="0"
+        maxValue="360"></line-chart>
+  
+      <modal-loading id="modalLoading"></modal-loading>
+    </div>
+    </template> <script type="application/dart" src="wind_chart.dart"></script> </polymer-element>
+  </body>
+</html>

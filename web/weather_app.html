@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+  <link rel="import" href="packages/mford_util/ui/nav_bar.html">
+  <link rel="import" href="packages/mford_util/ui/js_mford_google_map.html">
+  <link rel="import" href="wind_chart.html">
+  <link rel="import" href="footer_tab.html">
+  <body>
+    <polymer-element name="weather-app">
+      <template>
+        <style>
+        </style>
+        <nav-bar id="navTab"></nav-bar>        
+<!--        <div style="padding-top:50px ;padding-right:0px; padding-left:0px; overflow-y:hidden">-->
+          <div id="content" style="padding-top:50px; padding-right:0px; padding-left:0px; margin-left:0px; overflow-y:hidden; margin-right:0px">
+            
+            <js-mford-google-map id="map"></js-mford-google-map>
+            
+            
+            <wind-chart id="chart" class="hide"></wind-chart>
+                      
+          </div>
+        <!--</div>-->
+        <footer-tab id="footerTab" style="margin-left:0px; margin-right:0px"></footer-tab>
+      </template>
+      <script type="application/dart" src="weather_app.dart"></script>
+    </polymer-element>
+  </body>
+</html>
