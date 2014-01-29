@@ -1,4 +1,4 @@
-### pTest10
+### Dart Weather App
 
 Live wind speed and direction for few windsurding spots in South of England
 - Highcliffe
@@ -15,4 +15,3 @@ The app demonstrates use of
 - Use of bootstrap css
 - Integration with Google AppEngine Endpoints (http://github.com/nickfloros/testAppV6)
 
-PS : Need a better name
