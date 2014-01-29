@@ -13,5 +13,5 @@ The app demonstrates use of
 - Google Maps
 - Google Charts
 - Use of bootstrap css
-- Integration with Google AppEngine Endpoints (http://github.com/nickfloros/testAppV6)
+- Integration with Google AppEngine Endpoints (http://github.com/nickfloros/mford_util/lib/mford_gae.dart)
 
