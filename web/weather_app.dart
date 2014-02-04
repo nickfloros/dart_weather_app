@@ -2,18 +2,18 @@ library weather_app;
 import 'dart:html';
 import 'dart:async';
 import 'package:polymer/polymer.dart';
-import 'package:route_hierarchical/client.dart';
 
 import 'package:mford_util/mford_elements.dart';
 import 'footer_tab.dart';
 import 'wind_chart.dart';
 import 'package:mford_util/mford_gae.dart';
+
 /**
  * Main shell application
  */
 @CustomTag('weather-app')
 class WeatherApp extends PolymerElement {
-  
+
   bool get applyAuthorStyles => true;
   
   NavBar _navTab;
@@ -22,8 +22,6 @@ class WeatherApp extends PolymerElement {
   FooterTab _footerTab;
   int _workAreaHeightOffset=0;
   var _contentDiv;
-  Router router;
-  
   bool _showingMap = true;
   
   Mford_Gae_Services _svc;
@@ -44,21 +42,33 @@ class WeatherApp extends PolymerElement {
       _gMap = $['map'];
       _contentDiv = $['content']
         ..children.add(_gMap);
-
+      
       on[NavBar.selectionEventName].listen( (eventData) {
         _showSite(_svc.sites[eventData.detail]);
+        window.history.pushState('site', 'site', '#${eventData.detail}');
       });
-
+      
       on[JsMfordGoogleMap.MARKER_SELECTED_EVENT].listen((eventData) {
         _navTab.select('${eventData.detail}');
         _showSite(_svc.sites[eventData.detail]);
-        });
+        window.history.pushState('site', 'site', '#${eventData.detail}');
+        
+      });
       
-      on[NavBar.mapSelected].listen(_showMap);
-                  
+      on[NavBar.mapSelected].listen( (eventData) {
+        if (!showMapping) {
+          _showMap();
+          window.history.pushState(null, 'map','#map');
+        }
+      });
+
       _svc=new Mford_Gae_Services()
-           ..readSites().then( (resp)=>_renderSites(resp));
-//      _navTab.select('map');
+          ..readSites().then( (List<AnemometerSite>  resp) {
+          _renderSites(resp);
+          });          
+      
+      _navTab.select('map');
+      
       window.onResize.listen( (event) {
         event.preventDefault(); // stop the event from propagating ..
         
@@ -73,6 +83,48 @@ class WeatherApp extends PolymerElement {
       
       if (_showingMap)
         _gMap.show(window.innerWidth,window.innerHeight-(_navTab.height + _footerTab.height));
+
+/*      window.onPopState.listen( (PopStateEvent pstate) {
+        print('popstate');
+        var urlHash = window.location.hash;  
+        if ('#map'.compareTo(urlHash)==0 || urlHash.isEmpty) {
+          _showMap();
+          _navTab.select('map');
+        }
+        else {
+          var strId = urlHash.substring(1);
+          _navTab.select(strId);
+          _showSite(_svc.sites[int.parse(strId)]);
+        }
+
+      });*/
+      window.onHashChange.listen( (Event event)  {
+        var urlHash = window.location.hash; 
+        print('onHashChange $urlHash');
+        if ('#map'.compareTo(urlHash)==0 || urlHash.isEmpty) {
+          _showMap();
+          _navTab.select('map');
+        }
+        else {
+          var strId = urlHash.substring(1);
+          _navTab.select(strId);
+          _showSite(_svc.sites[int.parse(strId)]);
+        }
+      });
+      /*
+      window.onHashChange.listen( (Event event) {
+        var urlHash = window.location.hash;  
+        if ('#map'.compareTo(urlHash)==0 || urlHash.isEmpty) {
+          _showMap();
+          _navTab.select('map');
+        }
+        else {
+          var strId = urlHash.substring(1);
+          _navTab.select(strId);
+          _showSite(_svc.sites[int.parse(strId)]);
+        }
+      });
+      */
     }
 
   }
@@ -103,14 +155,14 @@ class WeatherApp extends PolymerElement {
     _wchart.loading(data.stationName);
     _svc.readSite(data.id).then( _processResponse);
     _wchart.resize(window.innerWidth,window.innerHeight-(_navTab.height + _footerTab.height));
-    window.history.pushState(null, 'site', '#${data.id}');
+
   }
 
 
   /**
    * show the map
    */
-  void _showMap(CustomEvent data) {
+  void _showMap() {
     if (!_showingMap) {
       _showingMap=true;
       _wchart.classes.toggle("hide");
@@ -122,6 +174,8 @@ class WeatherApp extends PolymerElement {
   void _processResponse(var resp) {
    _wchart.draw(resp);
   }
+  
+  
   
   bool get  showMapping => _showingMap;
 }

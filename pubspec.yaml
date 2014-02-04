@@ -4,10 +4,11 @@ version: 0.0.1
 homepage: https://plus.google.com/u/0/+NickFloros/
 description: A dart application to display real time weather information from the South of England.
 dependencies:
+  browser: any
+  lawndart: any
   mford_util:
     path: ../mford_util
   polymer: any
-  route_hierarchical: any
 transformers:
 - polymer:
     entry_points: web/index.html

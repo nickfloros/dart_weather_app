@@ -45,6 +45,10 @@ packages:
     description: js_wrapping
     source: hosted
     version: "0.1.0"
+  lawndart:
+    description: lawndart
+    source: hosted
+    version: "0.6.5"
   logging:
     description: logging
     source: hosted
@@ -75,10 +79,6 @@ packages:
     description: polymer_expressions
     source: hosted
     version: "0.9.1"
-  route_hierarchical:
-    description: route_hierarchical
-    source: hosted
-    version: "0.4.10"
   shadow_dom:
     description: shadow_dom
     source: hosted
@@ -95,10 +95,6 @@ packages:
     description: template_binding
     source: hosted
     version: "0.9.1"
-  unittest:
-    description: unittest
-    source: hosted
-    version: "0.9.3"
   unmodifiable_collection:
     description: unmodifiable_collection
     source: hosted

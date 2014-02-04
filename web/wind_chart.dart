@@ -42,9 +42,11 @@ class WindChart extends PolymerElement {
   }
   
   void resize(int width, int height) {
+
     $['chartDiv'].style.width='${width}px';
     $['chartDiv'].style.height='${height}px';
   }
+  
   
   void loading(String name) {
     print('Loading - $name');
