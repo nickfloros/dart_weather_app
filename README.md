@@ -15,3 +15,5 @@ The app demonstrates use of
 - Use of bootstrap css
 - Integration with Google AppEngine Endpoints (http://github.com/nickfloros/mford_util lib/mford_gae.dart)
 
+Google App Engine implimentation is outlined at https://github.com/nickfloros/mford-gae
+
