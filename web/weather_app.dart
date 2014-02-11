@@ -21,7 +21,6 @@ class WeatherApp extends PolymerElement {
   JsMfordGoogleMap _gMap;
   FooterTab _footerTab;
   int _workAreaHeightOffset=0;
-  var _contentDiv;
   bool _showingMap = true;
   
   Mford_Gae_Services _svc;
@@ -40,8 +39,6 @@ class WeatherApp extends PolymerElement {
       _footerTab = $['footerTab'];
       _wchart = $['chart'];
       _gMap = $['map'];
-      _contentDiv = $['content']
-        ..children.add(_gMap);
       
       on[NavBar.selectionEventName].listen( (eventData) {
         _showSite(_svc.sites[eventData.detail]);
@@ -59,6 +56,26 @@ class WeatherApp extends PolymerElement {
         if (!showMapping) {
           _showMap();
           window.history.pushState(null, 'map','#map');
+        }
+      });
+
+      // do not understand why I need both but if I do not do that
+      // the JS version of code nothing happens
+      window.onHashChange.listen( (Event event)  {
+        print('onHashChange');
+      });
+      
+      window.onPopState.listen( (var postStateEvent) {
+        var urlHash = window.location.hash; 
+        print('onPopState $urlHash');
+        if ('#map'.compareTo(urlHash)==0 || urlHash.isEmpty) {
+          _showMap();
+          _navTab.select('map');
+        }
+        else {
+          var strId = urlHash.substring(1);
+          _navTab.select(strId);
+          _showSite(_svc.sites[int.parse(strId)]);
         }
       });
 
@@ -84,47 +101,7 @@ class WeatherApp extends PolymerElement {
       if (_showingMap)
         _gMap.show(window.innerWidth,window.innerHeight-(_navTab.height + _footerTab.height));
 
-/*      window.onPopState.listen( (PopStateEvent pstate) {
-        print('popstate');
-        var urlHash = window.location.hash;  
-        if ('#map'.compareTo(urlHash)==0 || urlHash.isEmpty) {
-          _showMap();
-          _navTab.select('map');
-        }
-        else {
-          var strId = urlHash.substring(1);
-          _navTab.select(strId);
-          _showSite(_svc.sites[int.parse(strId)]);
-        }
 
-      });*/
-      window.onHashChange.listen( (Event event)  {
-        var urlHash = window.location.hash; 
-        print('onHashChange $urlHash');
-        if ('#map'.compareTo(urlHash)==0 || urlHash.isEmpty) {
-          _showMap();
-          _navTab.select('map');
-        }
-        else {
-          var strId = urlHash.substring(1);
-          _navTab.select(strId);
-          _showSite(_svc.sites[int.parse(strId)]);
-        }
-      });
-      /*
-      window.onHashChange.listen( (Event event) {
-        var urlHash = window.location.hash;  
-        if ('#map'.compareTo(urlHash)==0 || urlHash.isEmpty) {
-          _showMap();
-          _navTab.select('map');
-        }
-        else {
-          var strId = urlHash.substring(1);
-          _navTab.select(strId);
-          _showSite(_svc.sites[int.parse(strId)]);
-        }
-      });
-      */
     }
 
   }

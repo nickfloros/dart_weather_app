@@ -15,8 +15,9 @@ class WindChart extends PolymerElement {
 
   bool get applyAuthorStyles => true;
   
-  @observable String siteName='';
-
+  @published String siteName='';
+  @published String subTitle='';
+  
   DateFormat _tfmt = new DateFormat('HH:mm');
 
   LineChart _windSpeedLineChart;
@@ -53,7 +54,6 @@ class WindChart extends PolymerElement {
   void loading(String name) {
     print('Loading - $name');
     siteName = name;
-    $['siteName'].text=name;
     _progressBar.show(titleTxt:name);
   }
   
@@ -82,7 +82,12 @@ class WindChart extends PolymerElement {
       directionData.add(item.direction.toList(item.timeStamp));
       speedData.add(item.speed.toList(item.timeStamp));
     }
-    $['siteName'].text='$siteName - last reading @ ${_tfmt.format(resp.readings.last.timeStamp)}, next @ ${_tfmt.format(resp.expireTime)}';
+    siteName = '$siteName - last reading @ ${_tfmt.format(resp.readings.last.timeStamp)}, next @ ${_tfmt.format(resp.expireTime)}';
+    if (resp.readings.last!=null) {
+      subTitle = ' latest avg speed ${resp.readings.last.speed.avg} knots, '+ 
+                  'direction ${resp.readings.last.direction.avg} deg';
+    }
+    
     _windSpeedLineChart.draw(speedData);
     _windDirectionLineChart.draw(directionData);
     _progressBar.hide(); 
