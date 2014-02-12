@@ -6,6 +6,7 @@ description: A dart application to display real time weather information from th
 dependencies:
   browser: any
   lawndart: any
+  logging: any
   mford_util:
     path: ../mford_util
   polymer: any

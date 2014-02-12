@@ -3,6 +3,9 @@ import 'dart:html';
 
 import 'package:intl/intl.dart';
 import 'package:polymer/polymer.dart';
+
+import 'package:logging/logging.dart' show Logger, Level, LogRecord;
+
 import 'package:mford_util/mford_elements.dart';
 
 import 'package:mford_util/mford_gae.dart';
@@ -12,7 +15,7 @@ import 'package:mford_util/mford_gae.dart';
  */
 @CustomTag('wind-chart')
 class WindChart extends PolymerElement {
-
+  final Logger _log = new Logger('WeatherApp');
   bool get applyAuthorStyles => true;
   
   @published String siteName='';
@@ -26,12 +29,12 @@ class WindChart extends PolymerElement {
   ModalLoading _progressBar;
 
   WindChart.created() : super.created() {
-    print('WindChart.created : shadowRoot is null ${shadowRoot==null}');
+    _log.info('WindChart.created : shadowRoot is null ${shadowRoot==null}');
   }
 
   void enteredView() {
     super.enteredView();
-    print('WindChart.enteredView : shadowRoot is null ${shadowRoot==null}');
+    _log.info('WindChart.enteredView : shadowRoot is null ${shadowRoot==null}');
     if (shadowRoot!=null) {      
      _windSpeedLineChart =$['speedChart'];
      _windDirectionLineChart =$['directionChart'];
@@ -52,7 +55,7 @@ class WindChart extends PolymerElement {
   
   
   void loading(String name) {
-    print('Loading - $name');
+    _log.info('Loading - $name');
     siteName = name;
     _progressBar.show(titleTxt:name);
   }

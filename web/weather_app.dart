@@ -3,6 +3,8 @@ import 'dart:html';
 import 'dart:async';
 import 'package:polymer/polymer.dart';
 
+import 'package:logging/logging.dart' show Logger, Level, LogRecord;
+
 import 'package:mford_util/mford_elements.dart';
 import 'footer_tab.dart';
 import 'wind_chart.dart';
@@ -13,6 +15,7 @@ import 'package:mford_util/mford_gae.dart';
  */
 @CustomTag('weather-app')
 class WeatherApp extends PolymerElement {
+  final Logger _log = new Logger('WeatherApp');
 
   bool get applyAuthorStyles => true;
   
@@ -26,12 +29,12 @@ class WeatherApp extends PolymerElement {
   Mford_Gae_Services _svc;
   
   WeatherApp.created() : super.created() {
-    print('WeatherApp.created shadowRoot is null ${shadowRoot!=null}');
+    _log.info('WeatherApp.created shadowRoot is null ${shadowRoot!=null}');
   }
   
   void enteredView() {
     super.enteredView();
-    print('WeatherApp.enteredView shadowRoot is null ${shadowRoot!=null}');
+    _log.info('WeatherApp.enteredView shadowRoot is null ${shadowRoot!=null}');
     
     if (shadowRoot!=null) { // there is a strange behaviour 
       
@@ -62,12 +65,12 @@ class WeatherApp extends PolymerElement {
       // do not understand why I need both but if I do not do that
       // the JS version of code nothing happens
       window.onHashChange.listen( (Event event)  {
-        print('onHashChange');
+        _log.info('onHashChange');
       });
       
       window.onPopState.listen( (var postStateEvent) {
         var urlHash = window.location.hash; 
-        print('onPopState $urlHash');
+        _log.info('onPopState $urlHash');
         if ('#map'.compareTo(urlHash)==0 || urlHash.isEmpty) {
           _showMap();
           _navTab.select('map');
